@@ -1,20 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { AuthScreen } from "./src/screens/Auth";
+import { ProfileScreen } from "./src/screens/Profile";
+import { PinCodeScreen } from "./src/screens/PinCode";
+import { HomeScreen } from "./src/screens/Home";
+import { EventScreen } from "./src/screens/Event";
+import { CheckoutScreen } from "./src/screens/Checkout";
+import { ProfileEventScreen } from "./src/screens/ProfileEvent";
+import { TicketScreen } from "./src/screens/Ticket";
+import { ResumeScreen } from "./src/screens/Resume";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Checkout" component={CheckoutScreen} />
+        <Stack.Screen name="Resume" component={ResumeScreen} />
+        <Stack.Screen name="Ticket" component={TicketScreen} />
+        <Stack.Screen name="ProfileEvent" component={ProfileEventScreen} />
+        <Stack.Screen name="Event" component={EventScreen} />
+        <Stack.Screen name="Auth" component={AuthScreen} />
+        <Stack.Screen name="PinCode" component={PinCodeScreen} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
