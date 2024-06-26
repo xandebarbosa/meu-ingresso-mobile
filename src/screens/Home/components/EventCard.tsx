@@ -31,7 +31,7 @@ export const EventCard = () => {
         >
           <Text>
             <Icon name="map-pin" />
-            Allian Parque
+            Allianz Parque
           </Text>
           <Text>R$ 200,00</Text>
         </View>

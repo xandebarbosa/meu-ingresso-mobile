@@ -9,6 +9,7 @@ import { CheckoutScreen } from "./src/screens/Checkout";
 import { ProfileEventScreen } from "./src/screens/ProfileEvent";
 import { TicketScreen } from "./src/screens/Ticket";
 import { ResumeScreen } from "./src/screens/Resume";
+import { MyEventsScreen } from "./src/screens/MyEvents";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,7 @@ export default function App() {
         <Stack.Screen name="Auth" component={AuthScreen} />
         <Stack.Screen name="PinCode" component={PinCodeScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="MyEvents" component={MyEventsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

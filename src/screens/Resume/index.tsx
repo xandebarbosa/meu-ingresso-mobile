@@ -23,7 +23,7 @@ export const ResumeScreen = () => {
             </View>
             <Text>Festa do Rock</Text>
             <Text>
-              <Icon name="map-pin" /> Allian Parque
+              <Icon name="map-pin" /> Allianz Parque
             </Text>
           </View>
           <View style={[styles.row, { marginTop: 20 }]}>

@@ -36,7 +36,7 @@ export const EventScreen = () => {
           </View>
           <Text>Festa do Rock</Text>
           <Text>
-            <Icon name="map-pin" /> Allian Parque
+            <Icon name="map-pin" /> Allianz Parque
           </Text>
         </View>
 
