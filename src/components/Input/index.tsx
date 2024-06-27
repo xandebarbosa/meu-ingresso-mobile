@@ -5,6 +5,7 @@ interface Props {
   label?: string;
   keyboardType?: "default" | "numeric" | "email-address" | "phone-pad";
   middle?: boolean;
+  onChangeText?: (text: string) => void;
 }
 
 export const Input = ({
@@ -12,6 +13,7 @@ export const Input = ({
   placeholder,
   keyboardType = "default",
   middle = false,
+  onChangeText,
 }: Props) => {
   return (
     <View
@@ -22,6 +24,7 @@ export const Input = ({
         style={styles.input}
         placeholder={placeholder}
         keyboardType={keyboardType}
+        onChangeText={onChangeText}
       />
     </View>
   );

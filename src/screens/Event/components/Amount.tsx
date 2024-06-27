@@ -2,13 +2,20 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface Props {
   amount: number;
+  handleAddAmount: () => void;
+  handleRemoveAmount: () => void;
 }
 
-export const Amount = ({ amount }: Props) => {
+export const Amount = ({
+  amount,
+  handleAddAmount,
+  handleRemoveAmount,
+}: Props) => {
   return (
     <View style={styles.info}>
       <View style={styles.row}>
         <TouchableOpacity
+          onPress={handleRemoveAmount}
           style={{
             width: 30,
             height: 30,
@@ -28,6 +35,7 @@ export const Amount = ({ amount }: Props) => {
         </TouchableOpacity>
         <Text>{amount}</Text>
         <TouchableOpacity
+          onPress={handleAddAmount}
           style={{
             width: 30,
             height: 30,

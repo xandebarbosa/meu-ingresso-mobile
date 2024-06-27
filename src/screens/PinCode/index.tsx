@@ -3,9 +3,13 @@ import { StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Button } from "../../components/Button";
 import { PinInputs } from "../../components/PinInput";
+import { useAppDispatch } from "../../features/hooks";
+import { signIn } from "../../features/auth/slice";
 
 export const PinCodeScreen = () => {
   const navigation = useNavigation();
+  const dispatch = useAppDispatch();
+
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
@@ -13,6 +17,15 @@ export const PinCodeScreen = () => {
     await new Promise((resolve) => {
       setTimeout(() => {
         setLoading(false);
+
+        const data = {
+          user: {
+            name: "John Doe",
+            cellPhone: "14998762262",
+          },
+          token: "123456",
+        };
+        dispatch(signIn(data));
         navigation.navigate("Home");
         resolve(true);
       }, 2000);

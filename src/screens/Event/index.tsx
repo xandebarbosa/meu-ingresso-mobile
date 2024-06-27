@@ -1,23 +1,39 @@
-import { useNavigation } from "@react-navigation/native";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import Icon from "react-native-vector-icons/Feather";
-import { Button } from "../../components/Button";
 import { useState } from "react";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import Icon from "react-native-vector-icons/Feather";
+
 import { Amount } from "./components/Amount";
 import { Tickets } from "./components/Tickets";
+import { Button } from "../../components/Button";
+import { useAppDispatch, useAppSelector } from "../../features/hooks";
+import { addItem } from "../../features/cart/slice";
 
 export const EventScreen = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+  const dispatch = useAppDispatch();
 
-  const [ticket, setTicket] = useState("track"); // track | cabin
+  const isLogged = useAppSelector((state) => state.auth.token !== "");
+  const event = useAppSelector((state) => state.events.byId[route.params!.id]);
+
+  const [ticketSelected, setTicketSelected] = useState(
+    event.ticket.types[0].name
+  );
   const [amount, setAmount] = useState(1);
+
+  const handleTicketSelected = (ticket: string) => {
+    setTicketSelected(ticket);
+  };
+
+  const handleAddAmount = () => {
+    setAmount(amount + 1);
+  };
+  const handleRemoveAmount = () => {
+    if (amount > 1) {
+      setAmount(amount - 1);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -31,20 +47,41 @@ export const EventScreen = () => {
 
         <View style={styles.info}>
           <View style={styles.row}>
-            <Text>22 setembro 2024 </Text>
-            <Text>19:00 - 22:00</Text>
+            <Text>{event.date}</Text>
+            <Text>{event.time}</Text>
           </View>
-          <Text>Festa do Rock</Text>
+          <Text>{event.name}</Text>
           <Text>
-            <Icon name="map-pin" /> Allianz Parque
+            <Icon name="map-pin" /> {event.location}
           </Text>
         </View>
 
-        <Tickets ticket={ticket} />
+        <Tickets
+          ticketSelected={ticketSelected}
+          tickets={event.ticket.types}
+          handleTicketSelected={handleTicketSelected}
+        />
 
-        <Amount amount={amount} />
+        <Amount
+          amount={amount}
+          handleAddAmount={handleAddAmount}
+          handleRemoveAmount={handleRemoveAmount}
+        />
 
-        <Button onPress={() => navigation.navigate("Checkout")}>
+        <Button
+          onPress={() => {
+            dispatch(
+              addItem({
+                event,
+                ticket: {
+                  type: ticketSelected,
+                  amount,
+                },
+              })
+            );
+            navigation.navigate(isLogged ? "Cart" : "Auth");
+          }}
+        >
           {"Comprar".toUpperCase()}
         </Button>
 
@@ -63,26 +100,7 @@ export const EventScreen = () => {
             gap: 10,
           }}
         >
-          <Text>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora,
-            excepturi dicta. Voluptate maxime ut labore voluptates doloribus,
-            accusantium quod similique culpa excepturi? Possimus, architecto
-            dolores. Nulla magnam sint fugit praesentium?
-          </Text>
-
-          <Text>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea ut
-            quasi porro excepturi minus quod nesciunt quisquam cum libero?
-            Expedita ab qui assumenda eligendi fugiat earum sint molestias
-            dolorem. Non.
-          </Text>
-
-          <Text>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea ut
-            quasi porro excepturi minus quod nesciunt quisquam cum libero?
-            Expedita ab qui assumenda eligendi fugiat earum sint molestias
-            dolorem. Non.
-          </Text>
+          <Text>{event.description}</Text>
         </View>
       </ScrollView>
     </View>

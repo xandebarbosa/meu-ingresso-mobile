@@ -1,8 +1,27 @@
 import { StyleSheet, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 import { Button } from "../../components/Button";
+import { useAppSelector } from "../../features/hooks";
 
 export const ResumeScreen = () => {
+  const tickets = useAppSelector((state) =>
+    state.tickets.allId.map((id) => state.tickets.byId[id])
+  );
+
+  const items = tickets.reduce((acc, cur) => {
+    if (!acc[cur.eventId]) {
+      acc[cur.eventId] = [cur];
+    } else {
+      acc[cur.eventId] = [...acc[cur.eventId], cur];
+    }
+
+    return acc;
+  }, {});
+
+  const eventId = Object.keys(items)[0];
+
+  const event = useAppSelector((state) => state.events.byId[eventId]);
+
   return (
     <View style={styles.container}>
       <View>
@@ -18,25 +37,30 @@ export const ResumeScreen = () => {
         <View style={styles.info}>
           <View>
             <View style={styles.row}>
-              <Text>22 setembro 2024</Text>
-              <Text>19:00 - 22:00</Text>
+              <Text>{event.date}</Text>
+              <Text>{event.time}</Text>
             </View>
-            <Text>Festa do Rock</Text>
+            <Text>{event.name}</Text>
             <Text>
-              <Icon name="map-pin" /> Allianz Parque
+              <Icon name="map-pin" /> {event.location}
             </Text>
           </View>
-          <View style={[styles.row, { marginTop: 20 }]}>
-            <Text>2x Camarote</Text>
-            <Text>R$ 800,00</Text>
-          </View>
-          <Text>- João da Silva</Text>
-          <Text>- Maria da Silva</Text>
-          <View style={[styles.row, { marginTop: 20 }]}>
-            <Text>1x Pista</Text>
-            <Text>R$ 200,00</Text>
-          </View>
-          <Text>- José da Silva</Text>
+
+          {items[eventId].map((ticket) => (
+            <View
+              key={ticket.id}
+              style={{
+                marginVertical: 10,
+              }}
+            >
+              <Text>{ticket.type}</Text>
+              <Text>{ticket.name}</Text>
+              <View style={styles.row}>
+                <Text>{ticket.document}</Text>
+                <Text>{ticket.birthDate}</Text>
+              </View>
+            </View>
+          ))}
 
           <Text
             style={{

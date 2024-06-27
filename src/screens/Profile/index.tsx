@@ -3,9 +3,13 @@ import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Feather";
 import { Avatar } from "../../components/Avatar";
 import { Button } from "../../components/Button";
+import { useAppDispatch, useAppSelector } from "../../features/hooks";
+import { signOut } from "../../features/auth/slice";
 
 export const ProfileScreen = () => {
   const navigation = useNavigation();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.auth.user);
 
   return (
     <View style={styles.container}>
@@ -21,10 +25,11 @@ export const ProfileScreen = () => {
             textAlign: "center",
           }}
         >
-          João da Silva
+          {user.name}
         </Text>
         <Text>
-          <Icon name="phone" /> (11) 99999-9999
+          <Icon name="phone" />{" "}
+          {user.cellPhone.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3")}
         </Text>
       </View>
       <View
@@ -40,7 +45,13 @@ export const ProfileScreen = () => {
           <Text style={styles.card}>Dados pessoais</Text>
         </TouchableOpacity>
 
-        <Button variant="outline" onPress={() => {}}>
+        <Button
+          variant="outline"
+          onPress={() => {
+            dispatch(signOut());
+            navigation.navigate("Home");
+          }}
+        >
           <Text>{"Sair".toUpperCase()}</Text>
         </Button>
       </View>

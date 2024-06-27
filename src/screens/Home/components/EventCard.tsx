@@ -1,28 +1,43 @@
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Feather";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Event } from "../../../features/events/types";
 
-export const EventCard = () => {
+interface Props extends Event {}
+
+export const EventCard = ({
+  id,
+  name,
+  location,
+  date,
+  time,
+  image,
+  ticket,
+}: Props) => {
   const navigation = useNavigation();
 
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => navigation.navigate("Event")}
+      onPress={() =>
+        navigation.navigate("Event", {
+          id,
+        })
+      }
     >
       <Image
         source={{
-          uri: "https://images.pexels.com/photos/976866/pexels-photo-976866.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+          uri: image,
         }}
         style={{ height: 200 }}
       />
 
       <View style={styles.content}>
         <View style={styles.row}>
-          <Text>22 setembro 2024 </Text>
-          <Text>19:00 - 22:00</Text>
+          <Text>{date}</Text>
+          <Text>{time}</Text>
         </View>
-        <Text>Festa do Rock</Text>
+        <Text>{name}</Text>
         <View
           style={{
             flexDirection: "row",
@@ -31,9 +46,16 @@ export const EventCard = () => {
         >
           <Text>
             <Icon name="map-pin" />
-            Allianz Parque
+            {location}
           </Text>
-          <Text>R$ 200,00</Text>
+          <Text>
+            {ticket.types
+              .sort((a, b) => a.price - b.price)[0]
+              .price.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              })}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
