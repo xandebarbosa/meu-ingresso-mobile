@@ -1,6 +1,5 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
-import { Avatar } from "../../components/Avatar";
 import { LinearGradient } from "expo-linear-gradient";
 
 const images = {

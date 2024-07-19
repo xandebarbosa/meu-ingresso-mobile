@@ -84,7 +84,14 @@ export const CartScreen = () => {
                         <Text>{item.ticket.type}</Text>
 
                         <TouchableOpacity
-                          onPress={() => dispatch(removeItem(item.ticket.type))}
+                          onPress={() =>
+                            dispatch(
+                              removeItem({
+                                type: item.ticket.type,
+                                eventId: event.id,
+                              })
+                            )
+                          }
                         >
                           <Icon name="trash-2" size={20} color="red" />
                         </TouchableOpacity>

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Slice } from "./types";
 
 const initialState: Slice = {
@@ -12,9 +12,19 @@ const slice = createSlice({
     addItem(state, action) {
       state.items.push(action.payload);
     },
-    removeItem(state, action) {
+    removeItem(
+      state,
+      action: PayloadAction<{
+        type: string;
+        eventId: string;
+      }>
+    ) {
+      console.log(action.payload);
+      console.log(state.items);
       state.items = state.items.filter(
-        (item) => item.ticket.type !== action.payload
+        (item) =>
+          item.event.id !== action.payload.eventId &&
+          item.ticket.type !== action.payload.type
       );
     },
   },
