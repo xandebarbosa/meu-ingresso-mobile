@@ -1,5 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 import { AuthScreen } from "./src/screens/Auth";
 import { ProfileScreen } from "./src/screens/Profile";
 import { PinCodeScreen } from "./src/screens/PinCode";
@@ -15,6 +17,49 @@ import { store } from "./src/features/store";
 import { CartScreen } from "./src/screens/Cart";
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function MyTabs() {
+  return (
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Tab.Screen
+        options={{
+          tabBarIconStyle: {
+            display: "none",
+          },
+          title: "Meus Eventos",
+        }}
+        name="MyEventsScreen"
+        component={MyEventsScreen}
+      />
+      <Tab.Screen
+        options={{
+          tabBarIconStyle: {
+            display: "none",
+          },
+          title: "Home",
+        }}
+        name="Home"
+        component={HomeScreen}
+      />
+      <Tab.Screen
+        options={{
+          tabBarIconStyle: {
+            display: "none",
+          },
+          title: "Perfil",
+        }}
+        name="Profile"
+        component={ProfileScreen}
+      />
+    </Tab.Navigator>
+  );
+}
 
 export default function App() {
   return (
@@ -26,7 +71,7 @@ export default function App() {
             headerShown: false,
           }}
         >
-          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Home" component={MyTabs} />
           <Stack.Screen name="Cart" component={CartScreen} />
           <Stack.Screen name="Checkout" component={CheckoutScreen} />
           <Stack.Screen name="Resume" component={ResumeScreen} />
