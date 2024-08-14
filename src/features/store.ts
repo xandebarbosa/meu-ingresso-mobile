@@ -4,6 +4,8 @@ import authReducer from "./auth";
 import eventsReducer from "./events";
 import cartReducer from "./cart";
 import ticketsReducer from "./tickets";
+import categoryReducer from "./categories";
+import orderReducer from "./orders";
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +13,8 @@ export const store = configureStore({
     events: eventsReducer,
     cart: cartReducer,
     tickets: ticketsReducer,
+    categories: categoryReducer,
+    order: orderReducer
   },
 });
 

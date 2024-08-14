@@ -1,6 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
 
 import { AuthScreen } from "./src/screens/Auth";
 import { ProfileScreen } from "./src/screens/Profile";
@@ -15,33 +16,66 @@ import { MyEventsScreen } from "./src/screens/MyEvents";
 import { Provider } from "react-redux";
 import { store } from "./src/features/store";
 import { CartScreen } from "./src/screens/Cart";
+import { BuffetScreen } from "./src/screens/Buffet";
+import { CategoryBuffetScreen } from "./src/screens/Buffet/CategoryBuffet";
+import { ItemDetailBuffetScreen } from "./src/screens/Buffet/ItemDetailBuffet";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+//headerShown: false,
 
 function MyTabs() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      screenOptions={{
-        headerShown: false,
-      }}
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          if (route.name === 'MyEventsScreen') {
+            return (
+              <Ionicons
+                name={
+                  focused
+                    ? 'information-circle'
+                    : 'information-circle-outline'
+                }
+                size={size}
+                color={color}
+              />
+            );
+          } else if (route.name === 'Home') {
+            return (
+              <Ionicons
+                name={focused ?  'home' : 'home-outline'}
+                size={size}
+                color={color}
+              />
+            );
+          } else if (route.name === 'Profile') {
+            return (
+              <Ionicons
+                name={focused ? 'person' : 'person-outline'}
+                size={size}
+                color={color}
+              />
+            );
+          }
+        },
+        tabBarInactiveTintColor: 'gray',
+        tabBarActiveTintColor: 'tomato',
+        headerShown: false
+      })}
     >
       <Tab.Screen
         options={{
-          tabBarIconStyle: {
-            display: "none",
-          },
           title: "Meus Eventos",
+          tabBarBadge: 3
         }}
         name="MyEventsScreen"
         component={MyEventsScreen}
       />
       <Tab.Screen
         options={{
-          tabBarIconStyle: {
-            display: "none",
-          },
           title: "Home",
         }}
         name="Home"
@@ -49,9 +83,6 @@ function MyTabs() {
       />
       <Tab.Screen
         options={{
-          tabBarIconStyle: {
-            display: "none",
-          },
           title: "Perfil",
         }}
         name="Profile"
@@ -76,6 +107,9 @@ export default function App() {
           <Stack.Screen name="Checkout" component={CheckoutScreen} />
           <Stack.Screen name="Resume" component={ResumeScreen} />
           <Stack.Screen name="Ticket" component={TicketScreen} />
+          <Stack.Screen name="CategoryBuffet" component={CategoryBuffetScreen} />
+          <Stack.Screen name="Buffet" component={BuffetScreen} />
+          <Stack.Screen name="ItemBuffet" component={ItemDetailBuffetScreen} />
           <Stack.Screen name="ProfileEvent" component={ProfileEventScreen} />
           <Stack.Screen name="Event" component={EventScreen} />
           <Stack.Screen name="Auth" component={AuthScreen} />
